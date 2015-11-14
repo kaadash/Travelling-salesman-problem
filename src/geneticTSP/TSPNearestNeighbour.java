@@ -46,7 +46,10 @@ public class TSPNearestNeighbour
         for (int j = 0; j < visited.size(); j++) {
             this.path += " -> " + visited.get(j).getName();
         }
-        System.out.println(this.wholeDistance);
         return this.path;
+    }
+
+    public int getWholeDistance() {
+        return wholeDistance;
     }
 }

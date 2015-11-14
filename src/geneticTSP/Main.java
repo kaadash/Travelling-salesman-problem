@@ -8,12 +8,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,27 +23,18 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 //        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Group root = new Group();
-        int indicator = 100;
-
         ArrayList <City> cities = new ArrayList<City>();
-        List <Button> buttons = new ArrayList<Button>();
-        Label result = new Label("Wynik: ");
-        Label initialDistance = new Label(": ");
-        Label orderResult = new Label();
-        for (int i = 0; i < 10; i++) {
-            StringBuilder sb = new StringBuilder();
-            String name = sb.append(i).toString();
-            cities.add(new City(name));
-            TourManager.addCity(cities.get(i));
-            buttons.add(new Button(name));
-            buttons.get(i).setTranslateX(cities.get(i).getX() + indicator);
-            buttons.get(i).setTranslateY(cities.get(i).getY() + indicator);
-        }
+        ArrayList <Button> buttons = new ArrayList<Button>();
+        ArrayList<Label> labels = new ArrayList<Label>();
+
+        int numberOfCity = 10;
+
+        City.generateCitiesView(cities, buttons, numberOfCity, 200);
         TSPNearestNeighbour neighbourAlgorithm = new TSPNearestNeighbour(cities);
         String path = neighbourAlgorithm.findPath();
 
         Population pop = new Population(50, true);
-        System.out.println("Initial distance: " + pop.getFittest().getDistance());
+        int initialDistance = pop.getFittest().getDistance();
 
         // Evolve population for 100 generations
         pop = GA.evolvePopulation(pop);
@@ -53,22 +42,42 @@ public class Main extends Application {
             pop = GA.evolvePopulation(pop);
         }
 
-        // Print final results
-        System.out.println("Finished");
-        result.setText("Wynik: " + pop.getFittest().getDistance());
-        orderResult.setTranslateY(100);
-        orderResult.setText("Kolejność: " + pop.getFittest());
-
         ArrayList<City> prefix = new ArrayList<City>();
         ArrayList<Integer> minPathValue = new ArrayList<Integer>();
         minPathValue = TSPBruteForce.permutation(prefix, cities, minPathValue);
-        System.out.print("Brute min value:   " + Collections.min(minPathValue));
+
+        Label initialDistanceLabel = new Label("Długość bazowa wynosi: " + initialDistance);
+        Label geneticAlgorithmLength = new Label("Wynik dla genetycznego algorytmu: " + pop.getFittest().getDistance());
+        Label bruteForcePathLength = new Label("Długość trasy dla metody brute force: " + Collections.min(minPathValue));
+        Label nearestPathLength = new Label("Długość trasy dla metody najbliższego sąsiada: " + neighbourAlgorithm.getWholeDistance());
+        Label orderResultOfGeneticAlgorithm = new Label("Kolejność dla genetycznego algorytmu: " + pop.getFittest());
+        Label orderResultOfNearest = new Label("Kolejność dla algorytmu najbliższego sąsiada: " + path);
+
+        labels.add(initialDistanceLabel);
+        labels.add(nearestPathLength);
+        labels.add(geneticAlgorithmLength);
+        labels.add(bruteForcePathLength);
+        labels.add(orderResultOfGeneticAlgorithm);
+        labels.add(orderResultOfNearest);
+
+        int step = 0;
+
+        for (Label item: labels) {
+            item.setTranslateY(step);
+            step += 25;
+        }
+
         root.getChildren().addAll(buttons);
-        root.getChildren().add(result);
-        root.getChildren().add(orderResult);
-//        primaryStage.setTitle("Traveling Salesman Problem");
-//        primaryStage.setScene(new Scene(root, 1000, 1000));
-//        primaryStage.show();
+        root.getChildren().add(initialDistanceLabel);
+        root.getChildren().add(geneticAlgorithmLength);
+        root.getChildren().add(bruteForcePathLength);
+        root.getChildren().add(orderResultOfGeneticAlgorithm);
+        root.getChildren().add(orderResultOfNearest);
+        root.getChildren().add(nearestPathLength);
+
+        primaryStage.setTitle("Traveling Salesman Problem");
+        primaryStage.setScene(new Scene(root, 1000, 1000));
+        primaryStage.show();
 
     }
 

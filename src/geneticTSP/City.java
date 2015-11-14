@@ -1,5 +1,10 @@
 package geneticTSP;
-    public class City {
+
+import javafx.scene.control.Button;
+
+import java.util.ArrayList;
+
+public class City {
         private int x;
         private int y;
         private boolean visited;
@@ -66,6 +71,18 @@ package geneticTSP;
 
         public void setVisited(boolean isVisited) {
             this.visited = isVisited;
+        }
+
+        public static void generateCitiesView(ArrayList<City> cities, ArrayList <Button> buttons, int number, int translate) {
+            for (int i = 0; i < number; i++) {
+                StringBuilder sb = new StringBuilder();
+                String name = sb.append(i).toString();
+                cities.add(new City(name));
+                TourManager.addCity(cities.get(i));
+                buttons.add(new Button(name));
+                buttons.get(i).setTranslateX(cities.get(i).getX() + translate);
+                buttons.get(i).setTranslateY(cities.get(i).getY() + translate);
+            }
         }
         @Override
         public String toString(){

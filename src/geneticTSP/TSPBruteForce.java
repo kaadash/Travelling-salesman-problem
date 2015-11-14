@@ -21,18 +21,11 @@ public class TSPBruteForce {
         Integer currentPathValue = 0;
         int size = listaMiast.size();
         if(size == 0) {
-//            System.out.println("Wyjście z rekurencji ");
             for (int i = 0; i < prefix.size() - 1; i++) {
                 City city = prefix.get(i+1);
                 currentPathValue += (int)prefix.get(i).distanceTo(city);
-//                System.out.print(" -> " + currentPathValue);
             }
             minPathValue.add(currentPathValue);
-//            if(currentPathValue < minPathValue) {
-//                minPathValue = currentPathValue;
-//            }
-//            System.out.println(minPathValue);
-//            minPathValues.add(currentPathValue);
         }
         else {
             for (int i = 0; i < size; i++) {
@@ -44,7 +37,6 @@ public class TSPBruteForce {
                 permutation(prefixClone, listaMiastCopy, minPathValue);
             }
         }
-//        System.out.println(minPathValue);
         return minPathValue;
     }
 }
