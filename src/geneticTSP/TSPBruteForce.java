@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package geneticTSP;
 
 import java.util.ArrayList;
@@ -19,13 +14,16 @@ public class TSPBruteForce {
 
     public static ArrayList<Integer> permutation(ArrayList<City> prefix, ArrayList<City> listaMiast, ArrayList<Integer> minPathValue){
         Integer currentPathValue = 0;
+        //String currentPath = "";
         int size = listaMiast.size();
         if(size == 0) {
             for (int i = 0; i < prefix.size() - 1; i++) {
                 City city = prefix.get(i+1);
                 currentPathValue += (int)prefix.get(i).distanceTo(city);
+                //currentPath += (String)prefix.get(i);
             }
             minPathValue.add(currentPathValue);
+            //paths.add(currentPath);
         }
         else {
             for (int i = 0; i < size; i++) {
