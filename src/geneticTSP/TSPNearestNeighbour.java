@@ -44,9 +44,12 @@ public class TSPNearestNeighbour
         }
 
         for (int j = 0; j < visited.size(); j++) {
-            this.path += " -> " + visited.get(j).getName();
+            path += " -> " + visited.get(j).getName();
         }
-        return this.path;
+        System.out.println(path.length());
+        City city = citiesList.get(Integer.parseInt(path.substring(8,9)));
+        wholeDistance += (int)citiesList.get(Integer.parseInt(path.substring(path.length()-1,path.length()))).distanceTo(city);
+        return path;
     }
 
     public int getWholeDistance() {

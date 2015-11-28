@@ -66,6 +66,7 @@ public class City {
         return distance;
     }
 
+
     public String getName() {
         return name;
     }
@@ -87,10 +88,10 @@ public class City {
             StringBuilder sb = new StringBuilder();
             String name = sb.append(i).toString();
             cities.add(new City(name));
-            Text text = new Text(name);
+            Text text = new Text(name + " " + cities.get(i).toString());
             text.setFill(Color.WHITE);
             text.setBoundsType(TextBoundsType.VISUAL);
-            Sphere circle = new Sphere(20, 20);
+            Sphere circle = new Sphere(40, 40);
             final PhongMaterial material = new PhongMaterial();
             material.setDiffuseColor(Color.web("#444444"));
             circle.setMaterial(material);

@@ -52,20 +52,22 @@ public class Main extends Application {
         long stopGenet = System.currentTimeMillis();
 
         System.out.println("Algorytm genetyczny\n Ilość miast: " + numberOfCity + "\nCzas: " + (stopGenet-startGenet));
+        ArrayList<City> prefix = new ArrayList<City>();
+        Pair pair = new Pair();
+
 
         long startBrute = System.currentTimeMillis();
-        ArrayList<City> prefix = new ArrayList<City>();
-        ArrayList<Integer> minPathValue = new ArrayList<Integer>();
-        minPathValue = TSPBruteForce.permutation(prefix, cities, minPathValue);
+        pair = TSPBruteForce.permutation(prefix, cities, pair, numberOfCity);
         long stopBrute = System.currentTimeMillis();
-        System.out.println("Algorytm brute force\n Ilość miast: " + numberOfCity + "\nCzas: " + (stopBrute-startBrute));
+        System.out.println("Algorytm brute force\n Ilość miast: " + numberOfCity + "\nCzas: " + (stopBrute - startBrute));
 
         Label initialDistanceLabel = new Label("Długość bazowa wynosi: " + initialDistance);
         Label geneticAlgorithmLength = new Label("Wynik dla genetycznego algorytmu: " + pop.getFittest().getDistance());
-        Label bruteForcePathLength = new Label("Długość trasy dla metody brute force: " + Collections.min(minPathValue));
+        Label bruteForcePathLength = new Label("Długość trasy dla metody brute force: " + (pair).getValueMinPath());
         Label nearestPathLength = new Label("Długość trasy dla metody najbliższego sąsiada: " + neighbourAlgorithm.getWholeDistance());
         Label orderResultOfGeneticAlgorithm = new Label("Kolejność dla genetycznego algorytmu: " + pop.getFittest());
         Label orderResultOfNearest = new Label("Kolejność dla algorytmu najbliższego sąsiada: " + path);
+        Label bruteForcePath = new Label("Kolejność dla algorytmu brute force: " + pair.getMinPath());
 
         labels.add(initialDistanceLabel);
         labels.add(nearestPathLength);
@@ -73,6 +75,7 @@ public class Main extends Application {
         labels.add(bruteForcePathLength);
         labels.add(orderResultOfGeneticAlgorithm);
         labels.add(orderResultOfNearest);
+        labels.add(bruteForcePath);
 
         int step = 10;
 
@@ -88,6 +91,7 @@ public class Main extends Application {
         root.getChildren().add(orderResultOfGeneticAlgorithm);
         root.getChildren().add(orderResultOfNearest);
         root.getChildren().add(nearestPathLength);
+        root.getChildren().add(bruteForcePath);
 
         primaryStage.setTitle("Traveling Salesman Problem");
         primaryStage.setScene(new Scene(root, 1200, 1000));
