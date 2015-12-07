@@ -88,7 +88,7 @@ public class City {
             StringBuilder sb = new StringBuilder();
             String name = sb.append(i).toString();
             cities.add(new City(name));
-            Text text = new Text(name + " " + cities.get(i).toString());
+            Text text = new Text(name + " (" + cities.get(i).toString() + ")");
             text.setFill(Color.WHITE);
             text.setBoundsType(TextBoundsType.VISUAL);
             Sphere circle = new Sphere(40, 40);
